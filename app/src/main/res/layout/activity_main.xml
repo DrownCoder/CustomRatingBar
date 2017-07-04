@@ -13,5 +13,8 @@
         app:starSize="100dp"
         app:starEmpty="@mipmap/empty"
         app:staFill="@mipmap/fill"
+        app:mode="single"
+        app:touchAble="false"
+        app:progress="3"
         />
 </RelativeLayout>
