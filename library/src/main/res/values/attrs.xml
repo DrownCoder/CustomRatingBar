@@ -5,14 +5,14 @@
         <attr name="starSize"  format="dimension"/>
         <attr name="starNum" format="integer" />
         <attr name="starEmpty" format="reference" />
-        <attr name="staFill" format="reference" />
+        <attr name="starFill" format="reference" />
         <attr name="touchAble" format="boolean" />
         <attr name="mode" format="enum" >
             <enum name="single" value="1" />
             <enum name="random" value="2"/>
             <enum name="half" value="3"/>
         </attr>
-        <attr name="progress"  format="integer"/>
+        <attr name="ratingProgress"  format="integer"/>
     </declare-styleable>
 
 </resources>

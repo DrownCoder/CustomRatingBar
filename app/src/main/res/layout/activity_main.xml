@@ -8,13 +8,13 @@
     <com.study.dzx.library.widget.CustomRatingBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:starNum="5"
         app:starDistance="15dp"
-        app:starSize="100dp"
+        app:starSize="120px"
         app:starEmpty="@mipmap/empty"
-        app:staFill="@mipmap/fill"
-        app:mode="single"
-        app:touchAble="false"
-        app:progress="3"
+        app:starFill="@mipmap/fill"
+        app:mode="random"
+        app:touchAble="true"
         />
 </RelativeLayout>

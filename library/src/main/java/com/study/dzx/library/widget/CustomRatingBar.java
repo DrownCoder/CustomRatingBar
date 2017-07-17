@@ -15,6 +15,7 @@ import android.view.View;
 import com.study.dzx.library.R;
 import com.study.dzx.library.utils.DensityUtils;
 
+
 /**
  * Created by Xuan on 2017/7/4.
  * 自定义星级条
@@ -40,6 +41,17 @@ public class CustomRatingBar extends View {
     private boolean mTouchAble;
     private Paint mPaint;
 
+    //星星变化接口
+    public interface onStarChangedListener {
+        void onStarChange(CustomRatingBar ratingBar, float mark);
+    }
+
+    private onStarChangedListener mOnStarChangeListener;
+
+    public void setmOnStarChangeListener(onStarChangedListener mOnStarChangeListener) {
+        this.mOnStarChangeListener = mOnStarChangeListener;
+    }
+
     public CustomRatingBar(Context context) {
         this(context, null);
     }
@@ -51,59 +63,84 @@ public class CustomRatingBar extends View {
     public CustomRatingBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttr(context, attrs);
-        if (mTouchAble) {
-            initEvent();
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!mTouchAble) {
+            return super.onTouchEvent(event);
         }
-    }
-
-    private void initEvent() {
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                float x = motionEvent.getX();
-                if (x == 0 || x > (mStarNum * (mStarSize + mStarDistance) - mStarDistance)) {
-                    return true;
-                } else {
-                    int n = (int) (x / (mStarDistance + mStarSize));
-                    float touchStar = n + (x - n * (mStarDistance + mStarSize)) / mStarSize;
-                    switch (mMode) {
-                        case 1://整个星星
-                            touchStar = (float) Math.ceil(touchStar);
-                            break;
-                        case 2://随意
-                            break;
-                        case 3: {
-                            //半个
-                            if ((touchStar - Math.floor(touchStar) <= 0.5)) {
-                                touchStar = (float) (Math.floor(touchStar) + 0.5f);
-                            }else{
-                                touchStar = (float) Math.ceil(touchStar);
-                            }
-                            break;
-                        }
+        float x = event.getX();
+        if (x == 0 || x > (mStarNum * (mStarSize + mStarDistance) - mStarDistance)) {
+            return true;
+        } else {
+            int n = (int) (x / (mStarDistance + mStarSize));
+            float touchStar = n + (x - n * (mStarDistance + mStarSize)) / mStarSize;
+            switch (mMode) {
+                case 1://整个星星
+                    touchStar = (float) Math.ceil(touchStar);
+                    break;
+                case 2://随意
+                    break;
+                case 3: {
+                    //半个
+                    if ((touchStar - Math.floor(touchStar) <= 0.5)) {
+                        touchStar = (float) (Math.floor(touchStar) + 0.5f);
+                    } else {
+                        touchStar = (float) Math.ceil(touchStar);
                     }
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN: {
-                            setStarMark(touchStar);
-                            break;
-                        }
-                        case MotionEvent.ACTION_MOVE: {
-                            setStarMark(touchStar);
-                            break;
-                        }
-                        case MotionEvent.ACTION_UP:
-                            break;
-                    }
+                    break;
                 }
-                invalidate();
-
-                return true;
             }
-        });
+            /**
+             * 触摸后最小值为0.5
+             */
+            if (touchStar <= 0.5f) {
+                touchStar = 0.5f;
+            }
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN: {
+                    setRating(touchStar);
+                    break;
+                }
+                case MotionEvent.ACTION_MOVE: {
+                    setRating(touchStar);
+                    break;
+                }
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
+        }
+        invalidate();
+
+        return true;
     }
 
-    private void setStarMark(float touchStar) {
+
+    /**
+     * 设置评分
+     */
+    public void setRating(float touchStar) {
+        if (mOnStarChangeListener != null) {
+            this.mOnStarChangeListener.onStarChange(this, touchStar);
+        }
         mTouchStarMark = touchStar;
+        invalidate();
+    }
+
+    /**
+     * 获得评分
+     */
+    public float getRating() {
+        return mTouchStarMark;
+    }
+
+    /**
+     * 设置是否可以点击
+     */
+    public void setTouchAble(boolean mTouchAble) {
+        this.mTouchAble = mTouchAble;
     }
 
     private void initAttr(Context context, AttributeSet attrs) {
@@ -112,10 +149,10 @@ public class CustomRatingBar extends View {
         mStarDistance = array.getDimensionPixelSize(R.styleable.CustomRatingBar_starDistance, DensityUtils.dp2px(context, 0));
         mStarSize = array.getDimensionPixelSize(R.styleable.CustomRatingBar_starSize, DensityUtils.dp2px(context, 20));
         mEmptyStar = array.getDrawable(R.styleable.CustomRatingBar_starEmpty);
-        mFillStar = drawableToBitmap(array.getDrawable(R.styleable.CustomRatingBar_staFill));
+        mFillStar = drawableToBitmap(array.getDrawable(R.styleable.CustomRatingBar_starFill));
         mMode = array.getInt(R.styleable.CustomRatingBar_mode, 2);
         mTouchAble = array.getBoolean(R.styleable.CustomRatingBar_touchAble, true);
-        mTouchStarMark = array.getInt(R.styleable.CustomRatingBar_progress, 0);
+        mTouchStarMark = array.getInt(R.styleable.CustomRatingBar_ratingProgress, 0);
         array.recycle();
 
         mPaint = new Paint();
@@ -189,3 +226,4 @@ public class CustomRatingBar extends View {
         return bitmap;
     }
 }
+
