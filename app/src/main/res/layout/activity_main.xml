@@ -17,4 +17,18 @@
         app:mode="random"
         app:touchAble="true"
         />
+
+
+    <com.study.dzx.library.widget.CustomAnimRatingBar
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rb_star"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        app:modeAnim="half"
+        app:starAnimFill="@mipmap/star_big_fill"
+        app:starAnimDistance="10dp"
+        app:starAnimEmpty="@mipmap/star_big_empty"
+        app:starAnimHalf="@mipmap/star_big_half"
+        app:starAnimNum="5"
+        app:starAnimSize="35dp" />
 </RelativeLayout>

@@ -15,4 +15,20 @@
         <attr name="ratingProgress"  format="integer"/>
     </declare-styleable>
 
+    <!--自定义动画效果星级条-->
+    <declare-styleable name="CustomAnimRatingBar">
+        <attr name="starAnimDistance"  format="dimension"/>
+        <attr name="starAnimSize"  format="dimension"/>
+        <attr name="starAnimNum" format="integer" />
+        <attr name="starAnimEmpty" format="reference" />
+        <attr name="starAnimHalf" format="reference" />
+        <attr name="starAnimFill" format="reference" />
+        <attr name="touchAbleAnim" format="boolean" />
+        <attr name="modeAnim" format="enum" >
+            <enum name="single" value="1" />
+            <enum name="half" value="2"/>
+        </attr>
+        <attr name="ratingAnimProgress"  format="integer"/>
+    </declare-styleable>
+
 </resources>
