@@ -5,21 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <com.study.dzx.library.widget.CustomRatingBar
+    <TextView
+        android:id="@+id/tv_tag_anim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:starNum="5"
-        app:starDistance="15dp"
-        app:starSize="120px"
-        app:starEmpty="@mipmap/empty"
-        app:starFill="@mipmap/fill"
-        app:mode="random"
-        app:touchAble="true"
+        android:text="滑动动画星星：CustomAnimRatingBar"
+        android:gravity="center"
+        android:padding="10dp"
         />
 
-
     <com.study.dzx.library.widget.CustomAnimRatingBar
+        android:layout_below="@+id/tv_tag_anim"
         android:layout_centerHorizontal="true"
         android:id="@+id/rb_star"
         android:layout_width="wrap_content"
@@ -31,4 +27,25 @@
         app:starAnimHalf="@mipmap/star_big_half"
         app:starAnimNum="5"
         app:starAnimSize="35dp" />
+    <TextView
+        android:id="@+id/tv_tag_noanim"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="无动画星星：CustomRatingBar"
+        android:gravity="center"
+        android:padding="10dp"
+        />
+    <com.study.dzx.library.widget.CustomRatingBar
+        android:layout_below="@+id/tv_tag_noanim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:starNum="5"
+        app:starDistance="15dp"
+        app:starSize="120px"
+        app:starEmpty="@mipmap/empty"
+        app:starFill="@mipmap/fill"
+        app:mode="random"
+        app:touchAble="true"
+        />
 </RelativeLayout>
